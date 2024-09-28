@@ -9,6 +9,8 @@ services:
       - /app/node_modules
     ports:
       - 5173:5173
+    environment:
+      BACKEND_URL:
       
   backend:
     build:
@@ -21,12 +23,20 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+        restart: true
     networks:
       - backend
       - db
     environment:
       DATABASE_URL:
+    healthcheck:
+      test: ["CMD-SHELL", "curl localhost:8000 || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
   postgres:
     image: postgres:17-alpine
@@ -38,6 +48,12 @@ services:
      - /var/lib/postgresql/data
     networks:
       - db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
   host_mode:
     build:
@@ -51,7 +67,9 @@ services:
       - data_collector
       - backend
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+        restart: true
 
   client_mode:
     build:

@@ -1,7 +1,7 @@
 -- Your SQL goes here
 CREATE TABLE "device"(
 	"id" SERIAL PRIMARY KEY,
-	"hostname" VARCHAR NOT NULL
+	"hostname" VARCHAR NOT NULL UNIQUE
 );
 
 CREATE TABLE "device_info"(

@@ -21,7 +21,7 @@ pub struct DeviceInfo {
     system_name: String,
     kernel_version: String,
     os_version: String,
-    hostname: String,
+    pub hostname: String,
     number_of_cpus: u32,
     timestamp: u64,
 }

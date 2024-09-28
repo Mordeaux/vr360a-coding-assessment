@@ -21,9 +21,8 @@ fn get_device_info(device_id: i32) -> Json<Vec<DeviceInfo>> {
 
 #[post("/device-info", format = "json", data = "<device_info>")]
 fn device_info(device_info: Json<DeviceInfo>) -> Json<DeviceInfo> {
-    println!("Received device info: {:?}", device_info);
     let device = controller::get_device(&device_info.hostname)
-        .unwrap_or(controller::create_device(&device_info.hostname));
+        .unwrap_or_else(|_| controller::create_device(&device_info.hostname));
 
     let device_info = device_info.set_device_id(&device);
     let device_info = controller::create_device_info(device_info);

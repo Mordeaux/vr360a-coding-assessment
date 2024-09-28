@@ -12,7 +12,6 @@ pub fn establish_connection() -> PgConnection {
 pub fn get_device(device_hostname: &str) -> Result<Device, diesel::result::Error> {
     use crate::schema::device::dsl::*;
     let connection = &mut establish_connection();
-    println!("device_hostname: {}", device_hostname);
 
     device
         .filter(hostname.eq(device_hostname))

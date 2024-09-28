@@ -16,7 +16,7 @@ pub async fn client_daemon() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("WebSocket client connected");
 
-    tokio::spawn(async move {
+    let task = tokio::spawn(async move {
         loop {
             let computer_info = get_computer_info();
             let json_message = serde_json::to_string(&computer_info).expect("Failed to serialize");
@@ -33,6 +33,7 @@ pub async fn client_daemon() -> Result<(), Box<dyn std::error::Error>> {
             tokio::time::sleep(tokio::time::Duration::from_secs(get_update_interval())).await;
         }
     });
+    task.await?;
 
     Ok(())
 }
