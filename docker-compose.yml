@@ -1,0 +1,11 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vr360a_frontend
+    volumes:
+      - ./frontend:/frontend
+      - /fronend/node_modules
+    ports:
+      - 5173:5173
