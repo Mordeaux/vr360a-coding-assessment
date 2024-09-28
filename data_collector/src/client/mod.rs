@@ -16,15 +16,23 @@ pub async fn client_daemon() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("WebSocket client connected");
 
-    loop {
-        ws_stream
-            .send(Message::Text(get_computer_info().into()))
-            .await?;
+    tokio::spawn(async move {
+        loop {
+            let computer_info = get_computer_info();
+            let json_message = serde_json::to_string(&computer_info).expect("Failed to serialize");
 
-        if let Some(message) = ws_stream.next().await {
-            let message = message?;
-            println!("Received: {}", message);
-        };
-        tokio::time::sleep(tokio::time::Duration::from_secs(get_update_interval())).await;
-    }
+            ws_stream
+                .send(Message::Text(json_message))
+                .await
+                .expect("Error sending message");
+
+            if let Some(message) = ws_stream.next().await {
+                let message = message.expect("Error reading message");
+                println!("Received: {}", message);
+            };
+            tokio::time::sleep(tokio::time::Duration::from_secs(get_update_interval())).await;
+        }
+    });
+
+    Ok(())
 }

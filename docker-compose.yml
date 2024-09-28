@@ -50,6 +50,8 @@ services:
     networks:
       - data_collector
       - backend
+    depends_on:
+      - backend
 
   client_mode:
     build:

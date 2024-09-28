@@ -7,5 +7,6 @@ COPY . .
 ENV ROCKET_ADDRESS=0.0.0.0
 EXPOSE 8000
 
+RUN rustup override set nightly
 
 CMD ["cargo", "run"]

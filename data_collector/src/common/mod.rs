@@ -13,7 +13,7 @@ pub fn get_update_interval() -> u64 {
 }
 
 #[derive(Serialize, Deserialize)]
-struct DeviceInfo {
+pub struct DeviceInfo {
     total_memory: u64,
     used_memory: u64,
     total_swap: u64,
@@ -48,7 +48,6 @@ impl Default for DeviceInfo {
     }
 }
 
-pub fn get_computer_info() -> String {
-    let device_info = DeviceInfo::default();
-    serde_json::to_string(&device_info).unwrap()
+pub fn get_computer_info() -> DeviceInfo {
+    DeviceInfo::default()
 }

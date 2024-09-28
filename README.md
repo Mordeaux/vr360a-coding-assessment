@@ -1,4 +1,4 @@
-
+This is an app I created for a coding assessment as part of an interview process
 
 # Setup
 
@@ -19,3 +19,19 @@ docker compose up --build
 Note that the host and client executables are compiled at build time,
 and thus they do not automatically update when you develop. You will have
 to build again if you update their code for some reason.
+
+
+# Architecture
+
+## data_collector
+
+This Rust bin contains the code needed to run both host mode and client mode.
+Whether a particular instance is running in host mode or client mode is determined
+by the `DATA_COLLECTOR_HOST_MODE` environment variable. If this is set to `1`, then
+it will run in host mode. All other settings, including unset, will result in
+client mode.
+
+The client connects to the host via websockets. The host can be set with the
+`DATA_COLLECTOR_HOST` environment variable.
+
+The host simply posts all of the data it receives to the web app backend.

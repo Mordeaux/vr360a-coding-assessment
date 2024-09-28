@@ -1,4 +1,5 @@
 use diesel::{prelude::*, sql_types::Timestamp};
+use serde::Deserialize;
 
 use crate::schema::{device, device_info};
 
@@ -11,11 +12,11 @@ pub struct Device {
     pub updated_at: Timestamp,
 }
 
-#[derive(Queryable, Selectable, Identifiable, Associations, Debug)]
+#[derive(Queryable, Selectable, Identifiable, Associations, Debug, Deserialize)]
 #[diesel(belongs_to(Device))]
 #[diesel(table_name = device_info)]
 pub struct DeviceInfo {
-    pub id: i32,
+    pub id: Option<i32>,
     pub total_memory: i64,
     pub used_memory: i64,
     pub total_swap: i64,
@@ -26,7 +27,5 @@ pub struct DeviceInfo {
     pub hostname: String,
     pub number_of_cpus: i32,
     pub timestamp: i64,
-    pub created_at: Timestamp,
-    pub updated_at: Timestamp,
-    pub device_id: i32,
+    pub device_id: Option<i32>,
 }
