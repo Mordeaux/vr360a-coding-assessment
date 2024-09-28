@@ -4,8 +4,6 @@ diesel::table! {
     device (id) {
         id -> Int4,
         hostname -> Varchar,
-        created_at -> Timestamp,
-        updated_at -> Timestamp,
     }
 }
 
@@ -22,8 +20,6 @@ diesel::table! {
         hostname -> Varchar,
         number_of_cpus -> Int4,
         timestamp -> Int8,
-        created_at -> Timestamp,
-        updated_at -> Timestamp,
         device_id -> Int4,
     }
 }

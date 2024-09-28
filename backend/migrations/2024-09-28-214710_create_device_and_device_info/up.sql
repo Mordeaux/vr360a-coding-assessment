@@ -1,13 +1,11 @@
 -- Your SQL goes here
 CREATE TABLE "device"(
-	"id" INT4 NOT NULL PRIMARY KEY,
-	"hostname" VARCHAR NOT NULL,
-	"created_at" TIMESTAMP NOT NULL,
-	"updated_at" TIMESTAMP NOT NULL
+	"id" SERIAL PRIMARY KEY,
+	"hostname" VARCHAR NOT NULL
 );
 
 CREATE TABLE "device_info"(
-	"id" INT4 NOT NULL PRIMARY KEY,
+	"id" SERIAL PRIMARY KEY,
 	"total_memory" INT8 NOT NULL,
 	"used_memory" INT8 NOT NULL,
 	"total_swap" INT8 NOT NULL,
@@ -18,8 +16,6 @@ CREATE TABLE "device_info"(
 	"hostname" VARCHAR NOT NULL,
 	"number_of_cpus" INT4 NOT NULL,
 	"timestamp" INT8 NOT NULL,
-	"created_at" TIMESTAMP NOT NULL,
-	"updated_at" TIMESTAMP NOT NULL,
 	"device_id" INT4 NOT NULL,
 	FOREIGN KEY ("device_id") REFERENCES "device"("id")
 );
