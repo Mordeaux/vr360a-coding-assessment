@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::schema::{device, device_info};
 
-#[derive(Queryable, Identifiable, Selectable, Debug, Insertable)]
+#[derive(Queryable, Identifiable, Selectable, Debug, Insertable, Serialize)]
 #[diesel(primary_key(id))]
 #[diesel(table_name = device)]
 pub struct Device {
