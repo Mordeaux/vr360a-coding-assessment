@@ -5,7 +5,34 @@ services:
       dockerfile: Dockerfile
     container_name: vr360a_frontend
     volumes:
-      - ./frontend:/frontend
-      - /fronend/node_modules
+      - ./frontend:/app
+      - /app/node_modules
     ports:
       - 5173:5173
+      
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vr360a_backend
+    volumes:
+      - ./backend:/app
+      - /app/target
+    ports:
+      - 8000:8000
+    networks:
+      - db
+
+  postgres:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+    ports:
+      - "5432:5432"
+    volumes:
+     - /var/lib/postgresql/data
+
+networks:
+  db:
