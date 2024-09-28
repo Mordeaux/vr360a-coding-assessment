@@ -20,7 +20,10 @@ services:
       - /app/target
     ports:
       - 8000:8000
+    depends_on:
+      - postgres
     networks:
+      - backend
       - db
 
   postgres:
@@ -33,6 +36,32 @@ services:
       - "5432:5432"
     volumes:
      - /var/lib/postgresql/data
+    networks:
+      - db
+
+  host_mode:
+    build:
+      context: ./data_collector
+      dockerfile: Dockerfile
+    container_name: vr360a_data_collector_host
+    environment:
+      - DATA_COLLECTOR_HOST=1
+    networks:
+      - data_collector
+      - backend
+
+  client_mode:
+    build:
+      context: ./data_collector
+      dockerfile: Dockerfile
+    container_name: vr360a_data_collector_client_1
+    networks:
+      - data_collector
+    depends_on:
+      - host_mode
 
 networks:
   db:
+  backend:
+  data_collector:
+    internal: true
