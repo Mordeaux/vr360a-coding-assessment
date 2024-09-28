@@ -1,3 +1,4 @@
+use crate::common::get_computer_info;
 use futures_util::{SinkExt, StreamExt};
 use tokio_tungstenite::connect_async;
 use tungstenite::protocol::Message;
@@ -11,16 +12,15 @@ pub async fn client_daemon() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("WebSocket client connected");
 
-    // Send a message to the server
-    ws_stream
-        .send(Message::Text("Hello, server!".into()))
-        .await?;
+    loop {
+        ws_stream
+            .send(Message::Text(get_computer_info().into()))
+            .await?;
 
-    // Read the response from the server
-    if let Some(message) = ws_stream.next().await {
-        let message = message?;
-        println!("Received: {}", message);
+        if let Some(message) = ws_stream.next().await {
+            let message = message?;
+            println!("Received: {}", message);
+        };
+        tokio::time::sleep(tokio::time::Duration::from_secs(10)).await;
     }
-
-    Ok(())
 }

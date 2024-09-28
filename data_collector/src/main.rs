@@ -1,5 +1,7 @@
 mod client;
+mod common;
 mod host;
+
 use client::client_daemon;
 use host::host_daemon;
 use std::env;
