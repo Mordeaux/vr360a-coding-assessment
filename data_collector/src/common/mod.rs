@@ -1,7 +1,16 @@
+use std::env;
+
 use serde::{Deserialize, Serialize};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use sysinfo::System;
+
+pub fn get_update_interval() -> u64 {
+    env::var("DATA_COLLECTOR_UPDATE_INTERVAL")
+        .ok()
+        .and_then(|val| val.parse().ok())
+        .unwrap_or(10)
+}
 
 #[derive(Serialize, Deserialize)]
 struct DeviceInfo {

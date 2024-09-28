@@ -1,4 +1,5 @@
 use crate::common::get_computer_info;
+use crate::common::get_update_interval;
 use futures_util::{SinkExt, StreamExt};
 use tokio::net::TcpListener;
 use tokio_tungstenite::accept_async;
@@ -26,6 +27,14 @@ pub async fn host_daemon() -> Result<(), Box<dyn std::error::Error>> {
 
                 // Echo the message back
                 write.send(message).await.expect("Error sending message");
+            }
+        });
+        tokio::spawn(async {
+            loop {
+                let device_info = get_computer_info();
+                tokio::time::sleep(tokio::time::Duration::from_secs(get_update_interval())).await;
+                println!("Sending computer info");
+                println!("Host Device Info: {}", device_info);
             }
         });
     }

@@ -25,15 +25,15 @@ services:
     networks:
       - backend
       - db
+    environment:
+      DATABASE_URL:
 
   postgres:
     image: postgres:17-alpine
     restart: always
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=secret
-    ports:
-      - "5432:5432"
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
     volumes:
      - /var/lib/postgresql/data
     networks:
@@ -45,7 +45,8 @@ services:
       dockerfile: Dockerfile
     container_name: vr360a_data_collector_host
     environment:
-      - DATA_COLLECTOR_HOST=1
+      DATA_COLLECTOR_UPDATE_INTERVAL:
+      DATA_COLLECTOR_HOST_MODE: 1
     networks:
       - data_collector
       - backend
@@ -57,6 +58,9 @@ services:
     container_name: vr360a_data_collector_client_1
     networks:
       - data_collector
+    environment:
+      DATA_COLLECTOR_UPDATE_INTERVAL:
+      DATA_COLLECTOR_HOST:
     depends_on:
       - host_mode
 
