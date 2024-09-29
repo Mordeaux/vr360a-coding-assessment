@@ -35,3 +35,24 @@ The client connects to the host via websockets. The host can be set with the
 `DATA_COLLECTOR_HOST` environment variable.
 
 The host simply posts all of the data it receives to the web app backend.
+
+## backend
+
+A rocket app. Pretty simple.
+
+## frontend
+
+Vite
+
+# Things I ran out of time for
+
+* A websocket connection between frontend and backend that allows realtime
+updating of info
+* A UI framework
+* A more interesting UI in general, a graph would have been nice
+* Some kind of authentication, other security measures like encryption
+* Better handline of environment stuff to make deploying easier
+* TESTS! There are no tests. Luckily the simplicity of the app combined with
+the power of Rust and Typescript rules out a lot of potential bugs.
+* I've left some `unwraps()` and things of that nature around that need better
+handling
