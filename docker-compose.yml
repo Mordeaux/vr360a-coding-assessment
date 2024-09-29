@@ -84,6 +84,19 @@ services:
     depends_on:
       - host_mode
 
+  client_mode2:
+    build:
+      context: ./data_collector
+      dockerfile: Dockerfile
+    container_name: vr360a_data_collector_client_2
+    networks:
+      - data_collector
+    environment:
+      DATA_COLLECTOR_UPDATE_INTERVAL:
+      DATA_COLLECTOR_HOST:
+    depends_on:
+      - host_mode
+
 networks:
   db:
   backend:

@@ -56,3 +56,4 @@ updating of info
 the power of Rust and Typescript rules out a lot of potential bugs.
 * I've left some `unwraps()` and things of that nature around that need better
 handling
+* The code could be organized a bit better
