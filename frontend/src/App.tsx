@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-
-const get = (endpoint: string) => {
-  const uri = `http://localhost:8000/${endpoint}`;
-  return fetch(uri).then((resp) => resp.json());
-};
+import { Device, getDevices } from "./api";
+import { Link } from "react-router-dom";
 
 function App() {
-  const [devices, setDevices] = useState([]);
+  const [devices, setDevices] = useState<Device[]>([]);
   console.log(devices);
 
   useEffect(() => {
-    get("device").then((data) => setDevices(data));
+    getDevices().then((data) => setDevices(data));
   }, []);
 
   return (
@@ -19,8 +16,10 @@ function App() {
       <div>
         <h1>Devices</h1>
         <ul>
-          {devices.map((device: any) => (
-            <li key={device.id}>{device.hostname}</li>
+          {devices.map((device) => (
+            <li key={device.id}>
+              <Link to={`/device/${device.id}`}>{device.hostname}</Link>
+            </li>
           ))}
         </ul>
       </div>
