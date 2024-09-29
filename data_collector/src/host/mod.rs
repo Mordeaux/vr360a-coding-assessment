@@ -21,6 +21,15 @@ pub async fn host_daemon() -> Result<(), Box<dyn std::error::Error>> {
     let listener = TcpListener::bind(&addr).await?;
     println!("WebSocket server listening on: {}", addr);
 
+    tokio::spawn(async {
+        loop {
+            let device_info = get_computer_info();
+            post_device_info(device_info).await;
+
+            tokio::time::sleep(tokio::time::Duration::from_secs(get_update_interval())).await;
+        }
+    });
+
     while let Ok((stream, _)) = listener.accept().await {
         tokio::spawn(async move {
             let ws_stream = accept_async(stream)
@@ -43,14 +52,6 @@ pub async fn host_daemon() -> Result<(), Box<dyn std::error::Error>> {
                     .send(Message::from("Device Info Received by host"))
                     .await
                     .expect("Error sending message");
-            }
-        });
-        tokio::spawn(async {
-            loop {
-                let device_info = get_computer_info();
-                post_device_info(device_info).await;
-
-                tokio::time::sleep(tokio::time::Duration::from_secs(get_update_interval())).await;
             }
         });
     }
