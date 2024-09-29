@@ -7,7 +7,6 @@ and run the migrations:
 
 ```bash
 docker compose run backend diesel setup
-docker compose run backend diesel migration run
 ```
 
 Then you can run the system with:
@@ -51,9 +50,10 @@ updating of info
 * A UI framework
 * A more interesting UI in general, a graph would have been nice
 * Some kind of authentication, other security measures like encryption
-* Better handline of environment stuff to make deploying easier
+* Better handling of environment stuff to make deploying easier
 * TESTS! There are no tests. Luckily the simplicity of the app combined with
 the power of Rust and Typescript rules out a lot of potential bugs.
 * I've left some `unwraps()` and things of that nature around that need better
 handling
 * The code could be organized a bit better
+* There is definitely more Dockerfile optimization that could be done to speed up builds
